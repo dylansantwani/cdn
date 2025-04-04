@@ -3,10 +3,25 @@
   "message": "This is an important message.",
   "isactive": true,
   "sites": [
-    "https://dsgame3.github.io",
-    "https://dylan.watch",
-    "https://tiktok.com",
-    "https://crazygames.com",
-    "https://coolmathgames.com"
+    {
+      "url": "https://dsgame3.github.io",
+      "name": "DS Game 3"
+    },
+    {
+      "url": "https://dylan.watch",
+      "name": "Dylan Watch"
+    },
+    {
+      "url": "https://tiktok.com",
+      "name": "TikTok"
+    },
+    {
+      "url": "https://crazygames.com",
+      "name": "Crazy Games"
+    },
+    {
+      "url": "https://coolmathgames.com",
+      "name": "Cool Math Games"
+    }
   ]
 }
