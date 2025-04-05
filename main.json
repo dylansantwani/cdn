@@ -2,6 +2,7 @@
   "important": false,
   "message": "This is an important message.",
   "isactive": true,
+  "anscanshow": true,
   "sites": [
     {
       "url": "https://dsgame3.github.io",
