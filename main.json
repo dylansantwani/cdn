@@ -1,15 +1,15 @@
 {
-  "important": true,
+  "important": false,
   "message": "This is an important message.",
   "isactive": true,
   "sites": [
     {
       "url": "https://dsgame3.github.io",
-      "name": "DS Game 3"
+      "name": "Games"
     },
     {
       "url": "https://dylan.watch",
-      "name": "Dylan Watch"
+      "name": "Watch TV/Movies"
     },
     {
       "url": "https://tiktok.com",
