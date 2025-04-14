@@ -23,6 +23,10 @@
     {
       "url": "https://coolmathgames.com",
       "name": "Cool Math Games"
+    },
+    {
+      "url": "/complete",
+      "name": "InstaComplete"
     }
   ]
 }
