@@ -1,0 +1,37 @@
+name: Sort Worksheets by Subject
+
+on:
+  push:
+    paths:
+      - 'incoming/**'
+
+jobs:
+  classify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr
+          pip install pytesseract pillow transformers torch
+
+      - name: Classify and move images
+        run: |
+          python scripts/sort_to_subject.py
+
+      - name: Commit sorted files
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add worksheets/
+          git commit -m "Auto-classified and sorted worksheets" || echo "No changes"
+          git push
