@@ -22,10 +22,11 @@ def detect_subject(text):
 def process_image(file_path):
     # Run EasyOCR on image and join all detected text lines
     results = reader.readtext(file_path, detail=0)
-    text = " ".join(results).strip()
 
-    if not text:
-        print(f"⚠️ Skipping {file_path} (no text found)")
+    text = " ".join(results).strip()
+    print(f"📝 OCR for {file_path}:\n{text}\n")
+    if not text or len(text) < 10:
+        print(f"⚠️ Skipping {file_path} (no meaningful text found)")
         subject = "other"
     else:
         subject = detect_subject(text)
