@@ -15,27 +15,29 @@ os.makedirs(dest_dir, exist_ok=True)
 def extract_text(path):
     if path.lower().endswith((".jpg", ".png", ".jpeg")):
         image = Image.open(path)
-        image = auto_rotate_image(image)  # 👈 rotation fix
+        image = auto_rotate_image(image)
         return pytesseract.image_to_string(image)
     elif path.lower().endswith(".pdf"):
-        return "[PDF content skipped]"
+        try:
+            with pdfplumber.open(path) as pdf:
+                return "\n".join(page.extract_text() or "" for page in pdf.pages)
+        except Exception as e:
+            print(f"❌ Failed to extract PDF text: {e}")
+            return ""
     else:
         with open(path, "r", errors="ignore") as f:
             return f.read()
 
 def auto_rotate_image(image):
-    # Try 0°, 90°, 180°, 270° and pick the one with the most words
     rotations = [0, 90, 180, 270]
     best_text = ""
     best_image = image
-
     for angle in rotations:
         rotated = image.rotate(angle, expand=True)
         text = pytesseract.image_to_string(rotated)
         if len(text.split()) > len(best_text.split()):
             best_text = text
             best_image = rotated
-
     return best_image
 
 def get_worksheet_name_and_label(content):
@@ -79,7 +81,6 @@ for filename in os.listdir(src_dir):
         out_dir = os.path.join(dest_dir, label)
         os.makedirs(out_dir, exist_ok=True)
 
-        # Construct a safe new filename
         base_name = name or os.path.splitext(filename)[0]
         ext = os.path.splitext(filename)[1]
         clean_name = base_name.replace(" ", "_").replace("/", "_")[:50]
