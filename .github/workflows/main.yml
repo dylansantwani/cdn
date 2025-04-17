@@ -1,15 +1,20 @@
-name: Classify Worksheets using Gemini AI
+name: Classify Worksheets
 
 on:
   push:
     paths:
       - 'incoming/**'
+      - 'classify.py'
 
 jobs:
   classify:
-    runs-on: ubuntu-latest # or ubuntu-latest
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -19,10 +24,19 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install google-generativeai pillow pytesseract
-          sudo apt-get install -y tesseract-ocr
+          sudo apt update
+          sudo apt install -y tesseract-ocr
+          pip install pillow pytesseract google-generativeai
 
-      - name: Run Gemini classifier
-        run: python scripts/sort.py
+      - name: Run classification script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python classify.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add worksheets
+          git commit -m "Auto classified worksheets" || echo "No changes to commit"
+          git push
