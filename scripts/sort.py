@@ -13,15 +13,30 @@ dest_dir = "worksheets"
 os.makedirs(dest_dir, exist_ok=True)
 
 def extract_text(path):
-    if path.lower().endswith((".jpg", ".jpeg", ".png")):
-        return pytesseract.image_to_string(Image.open(path))
+    if path.lower().endswith((".jpg", ".png", ".jpeg")):
+        image = Image.open(path)
+        image = auto_rotate_image(image)  # 👈 rotation fix
+        return pytesseract.image_to_string(image)
     elif path.lower().endswith(".pdf"):
-        with pdfplumber.open(path) as pdf:
-            first_page = pdf.pages[0]
-            return first_page.extract_text() or "[PDF content unreadable]"
+        return "[PDF content skipped]"
     else:
         with open(path, "r", errors="ignore") as f:
             return f.read()
+
+def auto_rotate_image(image):
+    # Try 0°, 90°, 180°, 270° and pick the one with the most words
+    rotations = [0, 90, 180, 270]
+    best_text = ""
+    best_image = image
+
+    for angle in rotations:
+        rotated = image.rotate(angle, expand=True)
+        text = pytesseract.image_to_string(rotated)
+        if len(text.split()) > len(best_text.split()):
+            best_text = text
+            best_image = rotated
+
+    return best_image
 
 def get_worksheet_name_and_label(content):
     prompt = f"""
