@@ -31,7 +31,7 @@ jobs:
       - name: Run classification script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python classify.py
+        run: python scripts/sort.py
 
       - name: Commit and push changes
         run: |
