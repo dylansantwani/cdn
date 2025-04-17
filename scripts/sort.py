@@ -6,7 +6,7 @@ import pytesseract
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-model = genai.GenerativeModel("gemini-pro")
+model = genai.GenerativeModel("gemini-1.5-pro")
 src_dir = "incoming"
 dest_dir = "worksheets"
 
@@ -28,7 +28,7 @@ for filename in os.listdir(src_dir):
 
     content = extract_text(fpath)
     prompt = f"""
-Classify this content into one of: Math, English, or Other.
+Classify this content into one of: Math, English,Biology,Economics or Other.
 Give only the label in lowercase — no explanation.
 
 Content:
