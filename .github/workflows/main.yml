@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install google-generativeai pillow pytesseract
-          sudo apt-install tesseract-ocr
+          sudo apt-get install -y tesseract-ocr
 
       - name: Run Gemini classifier
         run: python scripts/sort.py
