@@ -1,4 +1,4 @@
-name: Sort Worksheets by Subject
+name: Classify Worksheets using Gemini AI
 
 on:
   push:
@@ -7,10 +7,9 @@ on:
 
 jobs:
   classify:
-    runs-on: ubuntu-latest
-
+    runs-on: self-hosted  # or ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -20,16 +19,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install easyocr pillow transformers torch
+          pip install google-generativeai pillow pytesseract
 
-      - name: Classify and move images
-        run: |
-          python scripts/sort_to_subject.py
-
-      - name: Commit sorted files
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add worksheets/
-          git commit -m "Auto-classified and sorted worksheets" || echo "No changes"
-          git push
+      - name: Run Gemini classifier
+        run: python sort.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
