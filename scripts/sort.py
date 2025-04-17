@@ -41,7 +41,7 @@ def auto_rotate_image(image):
 def get_worksheet_name_and_label(content):
     prompt = f"""
 Classify the following worksheet content into one of: Math, English, Biology, Economics, or Other.
-Also, try to identify a short title or number (e.g., 9.2, "Darwin", or "Linear Equations") from the content.
+Also, try to identify a short title or number (e.g., 9.2) from the content.
 
 Respond only with the label and worksheet name in this format:
 label: <one word label>
