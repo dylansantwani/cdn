@@ -22,6 +22,6 @@ jobs:
           pip install google-generativeai pillow pytesseract
 
       - name: Run Gemini classifier
-        run: python sort.py
+        run: python scripts/sort.py
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
