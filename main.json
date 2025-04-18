@@ -1,0 +1,30 @@
+{
+  "important": false,
+  "message": "This is an important message.",
+  "isactive": true,
+  "anscanshow": true,
+  "iccanshow": true,
+  "sites": [
+    {
+      "url": "https://dsgame3.github.io",
+      "name": "Games"
+    },
+    {
+      "url": "https://dylan.watch",
+      "name": "Watch TV/Movies"
+    },
+    {
+      "url": "https://tiktok.com",
+      "name": "TikTok"
+    },
+    {
+      "url": "https://crazygames.com",
+      "name": "Crazy Games"
+    },
+    {
+      "url": "https://coolmathgames.com",
+      "name": "Cool Math Games"
+    }
+
+  ]
+}
