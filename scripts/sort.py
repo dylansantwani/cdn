@@ -15,8 +15,9 @@ os.makedirs(dest_dir, exist_ok=True)
 def extract_text(path):
     if path.lower().endswith((".jpg", ".png", ".jpeg")):
         image = Image.open(path)
-        image = auto_rotate_image(image)
-        return pytesseract.image_to_string(image)
+    image = auto_rotate_image(image)
+    image = preprocess_image_for_ocr(image)
+    return pytesseract.image_to_string(image)
     elif path.lower().endswith(".pdf"):
         try:
             with pdfplumber.open(path) as pdf:
@@ -72,6 +73,24 @@ def get_worksheet_answers(content):
 
     response = model.generate_content(prompt)
     return response
+
+def preprocess_image_for_ocr(pil_image):
+    # Convert PIL → OpenCV
+    image = np.array(pil_image.convert("RGB"))
+    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+
+    # Increase contrast and threshold
+    _, thresh = cv2.threshold(gray, 180, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+    # Remove noise
+    kernel = np.ones((1, 1), np.uint8)
+    cleaned = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
+
+    # Convert back to PIL
+    return Image.fromarray(cleaned)
+
+
+    
 for filename in os.listdir(src_dir):
     fpath = os.path.join(src_dir, filename)
     if not os.path.isfile(fpath):
