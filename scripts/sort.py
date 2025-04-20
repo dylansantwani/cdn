@@ -4,7 +4,8 @@ import google.generativeai as genai
 from PIL import Image
 import pytesseract
 import pdfplumber
-
+import numpy as np
+import cv2
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 model = genai.GenerativeModel("gemini-2.0-flash-lite")
 
