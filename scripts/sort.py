@@ -65,7 +65,10 @@ Content:
             name = line.split(":", 1)[1].strip()
 
     return label, name
-
+def get_worksheet_answers(content):
+     let prompt = `Format the provided text of a worksheet as a centered, printable 8.5x11 filled out worksheet, styled to resemble a clean, professional worksheet from Google Docs or Microsoft Word, but in HTML format. Answer all questions completely and accurately, but do not modify any of the original question text. The layout should be easy to read and SIMILAR TO THE ORIGINAL, with clear spacing and structure. Differentiate the answers using a distinct color (e.g., red or blue), and ensure each question and its corresponding answer are clearly visible. Include all necessary formatting using inline or embedded CSS (style should be VERY similar to the original). Return only pure, valid HTML—no comments, notes, or explanations. Please note that the content is OCR generated, so there may be some spelling inaccuracies. Fix those in your HTML. The content is:\n\n${content}`
+    response = model.generate_content(prompt)
+    return response
 for filename in os.listdir(src_dir):
     fpath = os.path.join(src_dir, filename)
     if not os.path.isfile(fpath):
@@ -74,7 +77,12 @@ for filename in os.listdir(src_dir):
     try:
         content = extract_text(fpath)
         label, name = get_worksheet_name_and_label(content)
+        answers = get_worksheet_answers(content)
+        html_filename = os.path.splitext(new_filename)[0] + ".html"
+        html_path = os.path.join(out_dir, html_filename)
 
+        with open(html_path, "w", encoding="utf-8") as f:
+            f.write(answers)
         if label not in ["math", "english", "biology", "economics", "spanish"]:
             label = "other"
 
@@ -87,6 +95,7 @@ for filename in os.listdir(src_dir):
         new_filename = f"{clean_name}{ext}"
 
         target_path = os.path.join(out_dir, new_filename)
+
         counter = 1
         while os.path.exists(target_path):
             new_filename = f"{clean_name}_{counter}{ext}"
