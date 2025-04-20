@@ -81,11 +81,8 @@ for filename in os.listdir(src_dir):
         content = extract_text(fpath)
         label, name = get_worksheet_name_and_label(content)
         answers = get_worksheet_answers(content)
-        html_filename = os.path.splitext(new_filename)[0] + ".html"
-        html_path = os.path.join(out_dir, html_filename)
 
-        with open(html_path, "w", encoding="utf-8") as f:
-            f.write(answers)
+
         if label not in ["math", "english", "biology", "economics", "spanish"]:
             label = "other"
 
@@ -104,6 +101,11 @@ for filename in os.listdir(src_dir):
             new_filename = f"{clean_name}_{counter}{ext}"
             target_path = os.path.join(out_dir, new_filename)
             counter += 1
+        html_filename = os.path.splitext(new_filename)[0] + ".html"
+        html_path = os.path.join(out_dir, html_filename)
+
+        with open(html_path, "w", encoding="utf-8") as f:
+            f.write(answers.text)
 
         shutil.move(fpath, target_path)
         print(f"✅ Moved {filename} to worksheets/{label}/{new_filename}")
