@@ -15,9 +15,9 @@ os.makedirs(dest_dir, exist_ok=True)
 def extract_text(path):
     if path.lower().endswith((".jpg", ".png", ".jpeg")):
         image = Image.open(path)
-    image = auto_rotate_image(image)
-    image = preprocess_image_for_ocr(image)
-    return pytesseract.image_to_string(image)
+        image = auto_rotate_image(image)
+        image = preprocess_image_for_ocr(image)
+        return pytesseract.image_to_string(image)
     elif path.lower().endswith(".pdf"):
         try:
             with pdfplumber.open(path) as pdf:
