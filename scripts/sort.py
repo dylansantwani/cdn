@@ -121,11 +121,14 @@ for filename in os.listdir(src_dir):
             new_filename = f"{clean_name}_{counter}{ext}"
             target_path = os.path.join(out_dir, new_filename)
             counter += 1
+        answers_dir = os.path.join(out_dir, "answers")
+        os.makedirs(answers_dir, exist_ok=True)
+
         html_filename = os.path.splitext(new_filename)[0] + ".html"
-        html_path = os.path.join(out_dir, html_filename)
+        html_path = os.path.join(answers_dir, html_filename)
 
         with open(html_path, "w", encoding="utf-8") as f:
-            f.write(answers.text)
+            f.write(answers)
 
         shutil.move(fpath, target_path)
         print(f"✅ Moved {filename} to worksheets/{label}/{new_filename}")
