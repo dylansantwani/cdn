@@ -66,9 +66,12 @@ Content:
 
     return label, name
 def get_worksheet_answers(content):
-     let prompt = `Format the provided text of a worksheet as a centered, printable 8.5x11 filled out worksheet, styled to resemble a clean, professional worksheet from Google Docs or Microsoft Word, but in HTML format. Answer all questions completely and accurately, but do not modify any of the original question text. The layout should be easy to read and SIMILAR TO THE ORIGINAL, with clear spacing and structure. Differentiate the answers using a distinct color (e.g., red or blue), and ensure each question and its corresponding answer are clearly visible. Include all necessary formatting using inline or embedded CSS (style should be VERY similar to the original). Return only pure, valid HTML—no comments, notes, or explanations. Please note that the content is OCR generated, so there may be some spelling inaccuracies. Fix those in your HTML. The content is:\n\n${content}`
+    prompt = f"""Format the provided text of a worksheet as a centered, printable 8.5x11 filled out worksheet, styled to resemble a clean, professional worksheet from Google Docs or Microsoft Word, but in HTML format. Answer all questions completely and accurately, but do not modify any of the original question text. The layout should be easy to read and SIMILAR TO THE ORIGINAL, with clear spacing and structure. Differentiate the answers using a distinct color (e.g., red or blue), and ensure each question and its corresponding answer are clearly visible. Include all necessary formatting using inline or embedded CSS (style should be VERY similar to the original). Return only pure, valid HTML—no comments, notes, or explanations. Please note that the content is OCR generated, so there may be some spelling inaccuracies. Fix those in your HTML. The content is:
+
+{content}"""
+
     response = model.generate_content(prompt)
-    return response
+    return responsea
 for filename in os.listdir(src_dir):
     fpath = os.path.join(src_dir, filename)
     if not os.path.isfile(fpath):
