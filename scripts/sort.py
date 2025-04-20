@@ -71,7 +71,7 @@ def get_worksheet_answers(content):
 {content}"""
 
     response = model.generate_content(prompt)
-    return responsea
+    return response
 for filename in os.listdir(src_dir):
     fpath = os.path.join(src_dir, filename)
     if not os.path.isfile(fpath):
