@@ -73,7 +73,7 @@ def get_worksheet_answers(content):
 {content}"""
 
     response = model.generate_content(prompt)
-    return response
+    return response.text
 
 def preprocess_image_for_ocr(pil_image):
     # Convert PIL → OpenCV
